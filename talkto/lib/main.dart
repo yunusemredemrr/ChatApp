@@ -19,10 +19,10 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context)=>UserModel(),
       child: MaterialApp(
-        title: "Talkto",
+        title: "TalkTo",
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.purple,
+          primaryColor: Colors.blue,
         ),
         home: LandingPage(),
       ),

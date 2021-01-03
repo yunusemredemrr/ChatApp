@@ -155,14 +155,14 @@ class FirestoreDBService implements DBBase {
     QuerySnapshot _querySnapshot;
     List<Users> _tumKullanicilar = [];
     if (enSonGetirilenUser == null) {
-      print("İlk defa kullanıcılar getiriliyor");
+      //print("İlk defa kullanıcılar getiriliyor");
       _querySnapshot = await FirebaseFirestore.instance
           .collection("users")
           .orderBy("userName")
           .limit(getirilecekElemanSayisi)
           .get();
     } else {
-      print("son kullanıcılar getiriliyor");
+     // print("son kullanıcılar getiriliyor");
       _querySnapshot = await FirebaseFirestore.instance
           .collection("users")
           .orderBy("userName")
@@ -189,7 +189,7 @@ class FirestoreDBService implements DBBase {
     List<Message> _allMessage = [];
 
     if (lastBroughtMessage == null) {
-      print("İlk defa kullanıcılar getiriliyor");
+      //print("İlk defa kullanıcılar getiriliyor");
       _querySnapshot = await FirebaseFirestore.instance
           .collection("speeches")
           .doc(currentUserID + "--" + oppositeUserID)
@@ -198,7 +198,7 @@ class FirestoreDBService implements DBBase {
           .limit(getirilecekElemanSayisi)
           .get();
     } else {
-      print("son kullanıcılar getiriliyor");
+      //print("son kullanıcılar getiriliyor");
       _querySnapshot = await FirebaseFirestore.instance
           .collection("speeches")
           .doc(currentUserID + "--" + oppositeUserID)
@@ -224,5 +224,8 @@ class FirestoreDBService implements DBBase {
       return _token.data()["token"];
     else
       return null;
+  }
+  Future deleteToken(String toWho) async{
+    await _firebaseDB.collection("tokens").doc(toWho).set({});
   }
 }

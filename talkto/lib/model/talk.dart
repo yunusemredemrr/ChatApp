@@ -12,7 +12,7 @@ class Talk {
   DateTime sonOkumaZamani;
   String aradakiFark;
 
-  Talk({this.speaker, this.who_is_talking, this.seen, this.creation_date, this.last_message_sent, this.seen_date});
+  Talk({this.speaker, this.who_is_talking, this.seen, this.creation_date, this.last_message_sent, this.seen_date,this.konusulanUserProfilURL});
 
   Map<String,dynamic> toMap(){
 

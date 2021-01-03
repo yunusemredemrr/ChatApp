@@ -5,7 +5,7 @@ abstract class AuthBase {
 
   Future<Users> signInAnonymously();
 
-  Future<bool> signOut();
+  Future<bool> signOut(String userID);
 
   Future<Users> signInWithGoogle();
 

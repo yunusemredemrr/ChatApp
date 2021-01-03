@@ -11,15 +11,16 @@ class Users {
   DateTime createdAt;
   DateTime updatedAt;
   int seviye;
-  Users({@required this.userID, @required this.email});
+
+  Users({@required this.userID, @required this.email,this.userName,this.profilURL});
 
   Map<String, dynamic> toMap() {
     return {
       "userID": userID,
       "email": email,
-      "userName": userName ?? email.substring(0,email.indexOf('@'))+ _randomNumbersGenerate() ,
-      "profilURL": profilURL ??
-          "https://sokakdergisi.com/wp-content/uploads/2020/03/ab67706c0000da84b44741a62f482b28abdccd23.jpeg",
+      "userName": userName ??
+          email.substring(0, email.indexOf('@')) + _randomNumbersGenerate(),
+      "profilURL": profilURL ?? "images/unknown.jpg",
       "createdAt": createdAt ?? FieldValue.serverTimestamp(),
       "updatedAt": updatedAt ?? FieldValue.serverTimestamp(),
       "seviye": seviye ?? 1,
@@ -35,7 +36,11 @@ class Users {
         updatedAt = (map["updatedAt"] as Timestamp).toDate(),
         seviye = map["seviye"];
 
-  Users.idVeResim({@required this.userID, @required this.profilURL});
+  Users.idVeResim(
+      {@required this.userID,
+      @required this.profilURL,
+      @required this.userName});
+
 
   @override
   String toString() {

@@ -48,10 +48,10 @@ class UserModel with ChangeNotifier implements AuthBase {
   }
 
   @override
-  Future<bool> signOut() async {
+  Future<bool> signOut(String userID) async {
     try {
       state = ViewState.Busy;
-      bool result = await _userRepository.signOut();
+      bool result = await _userRepository.signOut(userID);
       _user = null;
       return result;
     } catch (e) {
@@ -137,7 +137,8 @@ class UserModel with ChangeNotifier implements AuthBase {
         return _user;
       } else
         return null;
-    } finally {
+    }
+    finally {
       state = ViewState.Idle;
     }
   }

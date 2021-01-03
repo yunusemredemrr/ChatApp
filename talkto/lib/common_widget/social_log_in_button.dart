@@ -13,7 +13,7 @@ class SocialLoginButton extends StatelessWidget {
   const SocialLoginButton(
       {Key key,
       @required this.buttonText,
-      this.buttonColor: Colors.purple,
+      this.buttonColor: Colors.blue,
       this.textColor: Colors.white,
       this.radius: 16,
       this.height: 50,
@@ -26,7 +26,9 @@ class SocialLoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+      decoration: BoxDecoration(
+      ),
       child: SizedBox(
         height: height,
         child: RaisedButton(

@@ -1,9 +1,9 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:talkto/app/profil.dart';
+import 'package:talkto/app/profil_page.dart';
 import 'package:talkto/app/tab_items.dart';
-import 'package:talkto/app/users.dart';
+import 'package:talkto/app/users_page.dart';
 import 'package:talkto/common_widget/platform_responsive_alert_dialog.dart';
 import 'package:talkto/notification_handler.dart';
 import 'package:talkto/viewmodel/all_users_view_model.dart';

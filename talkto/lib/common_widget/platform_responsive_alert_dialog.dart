@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:talkto/common_widget/platform_responsive_widget.dart';
@@ -29,7 +28,7 @@ class PlatformResponsiveAlertDialog extends PlatformResponsiveWidget {
   @override
   Widget buildAndroidWidget(BuildContext context) {
     return AlertDialog(
-      title: Text(baslik),
+      title: Text(baslik,style: TextStyle(fontSize: 18),),
       content: Text(icerik),
       actions: _dialogButons(context),
     );

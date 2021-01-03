@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:talkto/app/talk_page.dart';
@@ -17,7 +18,7 @@ class _MySpeechesPageState extends State<MySpeechesPage> {
     UserModel _userModel = Provider.of<UserModel>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Konuşmalarım"),
+        title: Text("Sohbetler"),
       ),
       body: FutureBuilder<List<Talk>>(
         future: _userModel.getAllConversations(_userModel.user.userID),
@@ -39,26 +40,94 @@ class _MySpeechesPageState extends State<MySpeechesPage> {
                             builder: (context) =>
                                 ChangeNotifierProvider<ChatViewModel>(
                               create: (context) => ChatViewModel(
-                                  currentUser: _userModel.user,
-                                  oppositeUser: Users.idVeResim(
-                                      userID: currentSpech.who_is_talking,
-                                      profilURL:
-                                          currentSpech.konusulanUserProfilURL)),
+                                currentUser: _userModel.user,
+                                oppositeUser: Users.idVeResim(
+                                  userID: currentSpech.who_is_talking,
+                                  profilURL:currentSpech.konusulanUserProfilURL,
+                                  userName: currentSpech.konusulanUserName,
+                                ),
+                              ),
                               child: TalkPage(),
                             ),
                           ),
                         );
                       },
-                      child: ListTile(
-                        title: Text(currentSpech.last_message_sent),
-                        subtitle: Text(currentSpech.konusulanUserName +
-                            "  " +
-                            currentSpech.aradakiFark),
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.grey.withAlpha(40),
-                          backgroundImage:
-                              NetworkImage(currentSpech.konusulanUserProfilURL),
-                        ),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 70,
+                            child: ListTile(
+                              title: currentSpech.last_message_sent.length < 19
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          currentSpech.last_message_sent,
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Text(
+                                          currentSpech.aradakiFark,
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.blue.shade700,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          wordAbbreviation(
+                                              currentSpech.last_message_sent),
+                                          style: TextStyle(
+                                              fontSize: 19,
+                                              color: Colors.black),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            currentSpech.aradakiFark,
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              color: Colors.blue.shade700,
+                                            ),
+                                            textAlign: TextAlign.end,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                              subtitle: Text(
+                                currentSpech.konusulanUserName,
+                                style: TextStyle(
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.grey.withAlpha(40),
+                                backgroundImage: currentSpech
+                                            .konusulanUserProfilURL ==
+                                        "images/unknown.jpg"
+                                    ? ExactAssetImage(
+                                        currentSpech.konusulanUserProfilURL)
+                                    : NetworkImage(
+                                        currentSpech.konusulanUserProfilURL),
+                                radius: 34,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 1,
+                            width: MediaQuery.of(context).size.width * 1,
+                            margin: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.width * 0.23),
+                            color: Colors.black45,
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -122,5 +191,11 @@ class _MySpeechesPageState extends State<MySpeechesPage> {
     setState(() {});
     await Future.delayed(Duration(milliseconds: 10));
     return null;
+  }
+
+  String wordAbbreviation(String last_message_sent) {
+    String lastMessage;
+    lastMessage = last_message_sent.substring(0, 19) + "...";
+    return lastMessage;
   }
 }

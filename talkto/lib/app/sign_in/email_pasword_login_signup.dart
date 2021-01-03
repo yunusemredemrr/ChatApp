@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +42,8 @@ class _EmailAndPasswordLoginPageState extends State<EmailAndPasswordLoginPage> {
         Users _loginUser =
             await _userModel.signInWithEmailAndPassword(_email, _password);
         //if (_loginUser != null) debugPrint("kullanıcı id : " + _loginUser.userID.toString());
-      } on PlatformException catch (e) {
+
+      } on FirebaseAuthException catch (e) {
         //debugPrint("Widget oturum açma hata yakalandı : " + e.code.toString());
         PlatformResponsiveAlertDialog(
           baslik: "Oturum Açma HATA!",
@@ -54,7 +56,7 @@ class _EmailAndPasswordLoginPageState extends State<EmailAndPasswordLoginPage> {
         Users _createdUser =
             await _userModel.createUserWithEmailAndPassword(_email, _password);
         //if (_createdUser != null) debugPrint("kullanıcı id : " + _createdUser.userID.toString());
-      } on PlatformException catch (e) {
+      } on FirebaseAuthException catch (e) {
         PlatformResponsiveAlertDialog(
           baslik: "Kullanıcı oluşturma HATA!",
           icerik: Exceptions.show(e.code.toString()),
@@ -63,6 +65,8 @@ class _EmailAndPasswordLoginPageState extends State<EmailAndPasswordLoginPage> {
       }
     }
   }
+
+
 
   void _change() {
     setState(() {
@@ -102,10 +106,10 @@ class _EmailAndPasswordLoginPageState extends State<EmailAndPasswordLoginPage> {
                         height: size.height * 0.08,
                       ),
                       Text(
-                        "Mesajlaşma Hoşgeldiniz",
+                        "TalkTo",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: 30,
                             color: Colors.purple.shade900),
                       ),
                       SizedBox(
@@ -120,7 +124,7 @@ class _EmailAndPasswordLoginPageState extends State<EmailAndPasswordLoginPage> {
                       ),
                       TextFormField(
                         keyboardType: TextInputType.emailAddress,
-                        initialValue: "yunus@gmail.com",
+                        initialValue: "yunusemredemir@gmail.com",
                         decoration: InputDecoration(
                           errorText: _userModel.emailErrorMessage != null
                               ? _userModel.emailErrorMessage

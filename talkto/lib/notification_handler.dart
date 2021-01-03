@@ -17,7 +17,6 @@ import 'package:talkto/viewmodel/user_model.dart';
 import 'app/talk_page.dart';
 import 'model/user.dart';
 
-
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
@@ -25,7 +24,7 @@ Future<void> myBackgroundMessageHandler(Map<String, dynamic> message) async {
   if (message.containsKey('data')) {
     // Handle data message
     final dynamic data = message['data'];
-    print("Arka planda gelen data: " + message["data"].toString());
+    //print("Arka planda gelen data: " + message["data"].toString());
     NotificationHandler.showNotification(message);
   }
   return Future<void>.value();
@@ -40,6 +39,7 @@ class NotificationHandler {
   }
 
   NotificationHandler._internal();
+
   BuildContext myContext;
 
   initializeFCMNotification(BuildContext context) async {
@@ -60,28 +60,29 @@ class NotificationHandler {
     //_fcm.subscribeToTopic("all");
     //String token = await _fcm.getToken();
 
-    _fcm.onTokenRefresh.listen((newToken) async{
+    _fcm.onTokenRefresh.listen((newToken) async {
       User _currentUser = await FirebaseAuth.instance.currentUser;
-      await FirebaseFirestore.instance.doc("tokens/"+_currentUser.uid).set({"token" : newToken});
+      await FirebaseFirestore.instance
+          .doc("tokens/" + _currentUser.uid)
+          .set({"token": newToken});
     });
-
 
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
+        //print("onMessage: $message");
         showNotification(message);
       },
       onBackgroundMessage: myBackgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
+        //print("onLaunch: $message");
       },
       onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
+        // print("onResume: $message");
       },
     );
   }
 
-  static void showNotification(Map<String, dynamic> message) async{
+  static void showNotification(Map<String, dynamic> message) async {
     //var userURLPath = await _downloadAndSaveImage(message["data"]["profilURL"], 'largeIcon');
 
     var mesaj = Person(
@@ -108,35 +109,34 @@ class NotificationHandler {
   }
 
   Future onSelectNotification(String payload) async {
-    final _userModel = Provider.of<UserModel>(myContext,listen: false);
+    final _userModel = Provider.of<UserModel>(myContext, listen: false);
 
     if (payload != null) {
-      debugPrint('notification payload: $payload');
-      Map<String,dynamic> bringNotification = await jsonDecode(payload);
+      //debugPrint('notification payload: $payload');
+      Map<String, dynamic> bringNotification = await jsonDecode(payload);
 
       Navigator.of(myContext, rootNavigator: true).push(
         MaterialPageRoute(
-          builder: (context) =>
-              ChangeNotifierProvider<ChatViewModel>(
-                create: (context) => ChatViewModel(
-                    currentUser: _userModel.user,
-                    oppositeUser: Users.idVeResim(
-                        userID: bringNotification["data"]["oppositeUserID"],
-                        profilURL: bringNotification["data"]["profilURL"])),
-                child: TalkPage(),
+          builder: (context) => ChangeNotifierProvider<ChatViewModel>(
+            create: (context) => ChatViewModel(
+              currentUser: _userModel.user,
+              oppositeUser: Users.idVeResim(
+                userID: bringNotification["data"]["oppositeUserID"],
+                profilURL: bringNotification["data"]["profilURL"],
+                userName: bringNotification["data"]["title"]
               ),
+            ),
+            child: TalkPage(),
+          ),
         ),
       );
     }
-
   }
 
   Future onDidReceiveLocalNotification(
-      int id, String title, String body, String payload) {
+      int id, String title, String body, String payload) {}
 
-  }
-
-  /*static _downloadAndSaveImage(String url, String name) async {
+/*static _downloadAndSaveImage(String url, String name) async {
     var directory = await getApplicationDocumentsDirectory();
     var filePath = '${directory.path}/$name';
     var response = await http.get(url);

@@ -1,6 +1,5 @@
 import 'dart:io';
 
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +30,7 @@ class _ProfilPageState extends State<ProfilPage> {
     super.dispose();
   }
 
-  void _takePhotoFromCamera() async{
+  void _takePhotoFromCamera() async {
     var newPhoto = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
       _profilPhoto = newPhoto;
@@ -39,7 +38,7 @@ class _ProfilPageState extends State<ProfilPage> {
     });
   }
 
-  void _chosePhotoFromGallery() async{
+  void _chosePhotoFromGallery() async {
     var newPhoto = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       _profilPhoto = newPhoto;
@@ -47,13 +46,12 @@ class _ProfilPageState extends State<ProfilPage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     UserModel _userModel = Provider.of<UserModel>(context);
     _controlerUserName.text = _userModel.user.userName;
 
-    print("Profil sayfasındaki değerleri" + _userModel.user.toString());
+    //print("Profil sayfasındaki değerleri" + _userModel.user.toString());
 
     return Scaffold(
       appBar: AppBar(
@@ -89,14 +87,14 @@ class _ProfilPageState extends State<ProfilPage> {
                                 ListTile(
                                   leading: Icon(Icons.camera),
                                   title: Text("Kameradan Çek"),
-                                  onTap: (){
+                                  onTap: () {
                                     _takePhotoFromCamera();
                                   },
                                 ),
                                 ListTile(
                                   leading: Icon(Icons.image),
                                   title: Text("Galeriden Seç"),
-                                  onTap: (){
+                                  onTap: () {
                                     _chosePhotoFromGallery();
                                   },
                                 ),
@@ -108,7 +106,14 @@ class _ProfilPageState extends State<ProfilPage> {
                     },
                     child: CircleAvatar(
                       radius: 75,
-                      backgroundImage: _profilPhoto == null ? NetworkImage(_userModel.user.profilURL) : FileImage(_profilPhoto),
+                      backgroundImage: _profilPhoto == null &&
+                              _userModel.user.profilURL == "images/unknown.jpg"
+                          ? ExactAssetImage(_userModel.user.profilURL)
+                          : _profilPhoto == null &&
+                                  _userModel.user.profilURL !=
+                                      "images/unknown.jpg"
+                              ? NetworkImage(_userModel.user.profilURL)
+                              : FileImage(_profilPhoto),
                       backgroundColor: Colors.white,
                     ),
                   ),
@@ -141,6 +146,7 @@ class _ProfilPageState extends State<ProfilPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: SocialLoginButton(
                     buttonText: "Değişiklikleri Kaydet",
+                    buttonColor: Colors.blueAccent,
                     onPressed: () {
                       _usernameUpdate(context);
                       _profilPhotoUpdate(context);
@@ -157,7 +163,7 @@ class _ProfilPageState extends State<ProfilPage> {
 
   Future<bool> _cikisYap(BuildContext context) async {
     final _userModel = Provider.of<UserModel>(context, listen: false);
-    bool result = await _userModel.signOut();
+    bool result = await _userModel.signOut(_userModel.user.userID);
     return result;
   }
 
@@ -197,11 +203,12 @@ class _ProfilPageState extends State<ProfilPage> {
     }
   }
 
-  void _profilPhotoUpdate(BuildContext context) async{
+  void _profilPhotoUpdate(BuildContext context) async {
     final _userModel = Provider.of<UserModel>(context, listen: false);
-    if(_profilPhoto != null){
-      var url = await _userModel.uploadFile(_userModel.user.userID,"profil_foto",_profilPhoto);
-      if(url != null){
+    if (_profilPhoto != null) {
+      var url = await _userModel.uploadFile(
+          _userModel.user.userID, "profil_foto", _profilPhoto);
+      if (url != null) {
         PlatformResponsiveAlertDialog(
           baslik: "Başarılı",
           icerik: "Profil fotoğrafınız güncellendi",
@@ -209,9 +216,5 @@ class _ProfilPageState extends State<ProfilPage> {
         ).show(context);
       }
     }
-
   }
-
-
-
 }

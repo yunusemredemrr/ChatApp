@@ -27,18 +27,46 @@ class _TalkPageState extends State<TalkPage> {
     final _chatModel = Provider.of<ChatViewModel>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sohbet"),
+        centerTitle: true,
+        title: Row(
+          children: [
+            CircleAvatar(
+              backgroundImage:
+                  _chatModel.oppositeUser.profilURL == "images/unknown.jpg"
+                      ? ExactAssetImage(_chatModel.oppositeUser.profilURL)
+                      : NetworkImage(_chatModel.oppositeUser.profilURL),
+              backgroundColor: Colors.grey.withAlpha(40),
+            ),
+            SizedBox(
+              width: 15,
+            ),
+            _chatModel.oppositeUser.userName.length < 25
+                ? Text(
+                    _chatModel.oppositeUser.userName,
+                    style: TextStyle(fontSize: 18),
+                  )
+                : Text(
+                    userNameAbbreviation(_chatModel.oppositeUser.userName),
+                    style: TextStyle(fontSize: 18),
+                  ),
+          ],
+        ),
       ),
       body: _chatModel.state == ChatViewState.Bussy
           ? Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.green,
+              ),
             )
           : Center(
-              child: Column(
-                children: <Widget>[
-                  _buildMessageList(),
-                  _buildNewMessageEnter(),
-                ],
+              child: Container(
+                color: Colors.blueGrey.shade50,
+                child: Column(
+                  children: <Widget>[
+                    _buildMessageList(),
+                    _buildNewMessageEnter(),
+                  ],
+                ),
               ),
             ),
     );
@@ -55,7 +83,8 @@ class _TalkPageState extends State<TalkPage> {
                 ? chatModel.messageList.length + 1
                 : chatModel.messageList.length,
             itemBuilder: (context, index) {
-              if (chatModel.hasMoreLoading && chatModel.messageList.length == index) {
+              if (chatModel.hasMoreLoading &&
+                  chatModel.messageList.length == index) {
                 return _newMessageLoadingIndicator();
               } else
                 return _createSpeechBubble(chatModel.messageList[index]);
@@ -69,38 +98,43 @@ class _TalkPageState extends State<TalkPage> {
   Widget _buildNewMessageEnter() {
     final _chatModel = Provider.of<ChatViewModel>(context);
     return Container(
-      padding: EdgeInsets.only(bottom: 8, left: 8),
+      color: Colors.white,
+      padding: EdgeInsets.only(bottom: 8, left: 8, top: 10),
       child: Row(
         children: <Widget>[
           Expanded(
             child: TextField(
               controller: _messageControler,
-              cursorColor: Colors.blueGrey,
+              cursorColor: Colors.green.shade900,
+              cursorWidth: 3,
               style: new TextStyle(
-                fontSize: 16,
+                fontSize: 14,
                 color: Colors.black,
               ),
               decoration: InputDecoration(
                 fillColor: Colors.white,
+                contentPadding: EdgeInsets.all(10),
                 filled: true,
                 hintText: "Mesajınızı Yazınız",
+                hintStyle: TextStyle(fontSize: 13, color: Colors.blueGrey),
                 border: new OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                  borderSide: BorderSide.none,
+                  borderRadius: new BorderRadius.circular(15.0),
                 ),
+
               ),
             ),
           ),
           Container(
             margin: EdgeInsets.symmetric(
-              horizontal: 4,
+              horizontal: 0,
             ),
             child: FloatingActionButton(
+              mini: true,
               elevation: 0,
               backgroundColor: Colors.blue,
               child: Icon(
-                Icons.navigation,
-                size: 35,
+                Icons.send,
+                size: 25,
                 color: Colors.white,
               ),
               onPressed: () async {
@@ -111,14 +145,14 @@ class _TalkPageState extends State<TalkPage> {
                     isMe: true,
                     message: _messageControler.text,
                   );
-                  var result =
-                      await _chatModel.saveMessage(_tobeRecordedMessage,_chatModel.currentUser);
+                  _messageControler.clear();
+                  var result = await _chatModel.saveMessage(
+                      _tobeRecordedMessage, _chatModel.currentUser);
                   if (result) {
-                    _messageControler.clear();
                     _scrollController.animateTo(
                       0.0,
                       curve: Curves.easeOut,
-                      duration: Duration(milliseconds: 15),
+                      duration: Duration(milliseconds: 5),
                     );
                   }
                 }
@@ -131,8 +165,8 @@ class _TalkPageState extends State<TalkPage> {
   }
 
   Widget _createSpeechBubble(Message currentMessage) {
-    Color _incomingMessageColor = Colors.blue;
-    Color _outgoingMessageColor = Theme.of(context).primaryColor;
+    Color _incomingMessageColor = Colors.blue.shade300;
+    Color _outgoingMessageColor = Colors.lightGreen.shade400;
     final _chatModel = Provider.of<ChatViewModel>(context);
 
     var _hourMinuteValue = "";
@@ -156,30 +190,36 @@ class _TalkPageState extends State<TalkPage> {
               children: <Widget>[
                 Flexible(
                   child: Container(
-                    constraints: BoxConstraints(maxWidth: 300),
+                    constraints: BoxConstraints(maxWidth: 300, minWidth: 40),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15),
-                        bottomLeft: Radius.circular(15),
+                        topLeft: Radius.circular(6),
+                        topRight: Radius.circular(6),
+                        bottomLeft: Radius.circular(6),
                       ),
                       boxShadow: [
                         BoxShadow(
-                          blurRadius: 20.0,
-                          offset: Offset(10, 10),
-                          color: Colors.black54,
+                          blurRadius: 8.0,
+                          offset: Offset(3, 2),
+                          color: Colors.black,
                         ),
                       ],
                       color: _outgoingMessageColor,
                     ),
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.all(4),
+                    padding:
+                        EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 2),
+                    margin: EdgeInsets.all(0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         Text(
                           currentMessage.message,
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                            color: Colors.black,
+                            //fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
+                          textAlign: TextAlign.start,
                         ),
                         SizedBox(
                           height: 4,
@@ -188,8 +228,9 @@ class _TalkPageState extends State<TalkPage> {
                           _hourMinuteValue,
                           style: TextStyle(
                               fontSize: 10,
-                              color: Colors.grey.shade500,
+                              color: Colors.grey.shade800,
                               fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.end,
                         ),
                       ],
                     ),
@@ -208,35 +249,38 @@ class _TalkPageState extends State<TalkPage> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                CircleAvatar(
-                  backgroundImage:
-                      NetworkImage(_chatModel.oppositeUser.profilURL),
-                  backgroundColor: Colors.grey.withAlpha(40),
-                ),
                 Flexible(
                   child: Container(
                     constraints: BoxConstraints(maxWidth: 300),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
+                        topLeft: Radius.circular(6),
+                        topRight: Radius.circular(6),
+                        bottomRight: Radius.circular(6),
                       ),
                       boxShadow: [
                         BoxShadow(
-                          blurRadius: 20.0,
-                          offset: Offset(10, 10),
-                          color: Colors.black54,
+                          blurRadius:8.0,
+                          offset: Offset(3, 2),
+                          color: Colors.black,
                         ),
                       ],
                       color: _incomingMessageColor,
                     ),
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.only(
+                        top: 10, left: 15, right: 10, bottom: 2),
                     margin: EdgeInsets.all(4),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        Text(currentMessage.message),
+                        Text(
+                          currentMessage.message,
+                          style: TextStyle(
+                            //fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
                         SizedBox(
                           height: 4,
                         ),
@@ -246,6 +290,7 @@ class _TalkPageState extends State<TalkPage> {
                               fontSize: 10,
                               color: Colors.grey.shade800,
                               fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.end,
                         ),
                       ],
                     ),
@@ -289,5 +334,11 @@ class _TalkPageState extends State<TalkPage> {
         child: CircularProgressIndicator(),
       ),
     );
+  }
+
+  String userNameAbbreviation(String userNameAbbreviation) {
+    String shortUserName;
+    shortUserName = userNameAbbreviation.substring(0, 21) + "...";
+    return shortUserName;
   }
 }

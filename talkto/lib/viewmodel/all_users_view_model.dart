@@ -40,7 +40,7 @@ class AllUserViewModel with ChangeNotifier {
       Users lastBroughtUser, bool newEmployeesBroughtIn) async {
     if (_allUsers.length > 0) {
       _lastBroughtUser = _allUsers.last;
-      print("EN SON GETİRİLEN USER " + _lastBroughtUser.userName);
+      //print("EN SON GETİRİLEN USER " + _lastBroughtUser.userName);
     }
 
     if (newEmployeesBroughtIn == true) {
@@ -55,7 +55,7 @@ class AllUserViewModel with ChangeNotifier {
       _hasMore = false;
     }
 
-    newList.forEach((element) => print("Getirilen userName : " + element.userName));
+    //newList.forEach((element) => print("Getirilen userName : " + element.userName));
 
     _allUsers.addAll(newList);
     
@@ -63,7 +63,7 @@ class AllUserViewModel with ChangeNotifier {
   }
 
   Future<void> bringMoreUsers() async {
-    print("Daha fazla user getir tetiklendi - view modeldeyiz - ");
+    //print("Daha fazla user getir tetiklendi - view modeldeyiz - ");
     if (_hasMore = true) {
       getUserWithPagination(_lastBroughtUser, true);
     }

@@ -51,11 +51,12 @@ class UserRepository implements AuthBase {
   }
 
   @override
-  Future<bool> signOut() async {
+  Future<bool> signOut(String userID) async {
     if (appMode == AppMode.DEBUG) {
-      return await _fakeAuthenticationService.signOut();
+      return await _fakeAuthenticationService.signOut(userID);
     } else {
-      return await _firebaseAuthService.signOut();
+      await _firestoreDBService.deleteToken(userID);
+      return await _firebaseAuthService.signOut(userID);
     }
   }
 
@@ -70,7 +71,7 @@ class UserRepository implements AuthBase {
         if (_result) {
           return await _firestoreDBService.readUser(_user.userID);
         } else {
-          await _firebaseAuthService.signOut();
+          await _firebaseAuthService.signOut("");
           return null;
         }
       } else
@@ -165,7 +166,8 @@ class UserRepository implements AuthBase {
         if (userToken.containsKey(tobeRecordedMessage.toWho)) {
           token = userToken[tobeRecordedMessage.toWho];
         } else {
-          token = await _firestoreDBService.tokenBring(tobeRecordedMessage.toWho);
+          token =
+              await _firestoreDBService.tokenBring(tobeRecordedMessage.toWho);
           if (token != null) userToken[tobeRecordedMessage.toWho] = token;
         }
         if (token != null)
@@ -186,22 +188,19 @@ class UserRepository implements AuthBase {
 
       var speechList = await _firestoreDBService.getAllConversations(userID);
       for (var oankiKonusma in speechList) {
-        var userListesindekiKullanici =
-            listedeUserBul(oankiKonusma.who_is_talking);
+        /*var userListesindekiKullanici = listedeUserBul(oankiKonusma.who_is_talking);
         if (userListesindekiKullanici != null) {
-          print("veriler local cacheden getiriliyor");
+          //print("veriler local cacheden getiriliyor");
           oankiKonusma.konusulanUserName = userListesindekiKullanici.userName;
-          oankiKonusma.konusulanUserProfilURL =
-              userListesindekiKullanici.profilURL;
-        } else {
-          print(
-              "Aranılan user daha önceden veri tabanından getirilmemiştir. o yüzden veritabanından bu veriyi okumalıyız");
+          oankiKonusma.konusulanUserProfilURL = userListesindekiKullanici.profilURL;
+        } else {*/
+          //print("Aranılan user daha önceden veri tabanından getirilmemiştir. o yüzden veritabanından bu veriyi okumalıyız");
           var veritabanindanOkunanUser =
               await _firestoreDBService.readUser(oankiKonusma.who_is_talking);
           oankiKonusma.konusulanUserName = veritabanindanOkunanUser.userName;
           oankiKonusma.konusulanUserProfilURL =
               veritabanindanOkunanUser.profilURL;
-        }
+        //}
         timeagoHesapla(oankiKonusma, _zaman);
       }
       return speechList;

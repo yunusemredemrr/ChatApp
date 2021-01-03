@@ -11,7 +11,7 @@ class TabItemData{
 
   static Map<TabItem,TabItemData> tumTablar = {
     TabItem.Users : TabItemData("Kullanıcılar",Icons.supervised_user_circle),
-    TabItem.MySpeeches : TabItemData("Konuşmalarım",Icons.chat,),
+    TabItem.MySpeeches : TabItemData("Sohbetler",Icons.chat,),
     TabItem.Profil : TabItemData("Profil",Icons.person),
   };
 }

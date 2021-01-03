@@ -98,7 +98,6 @@ class _UsersPageState extends State<UsersPage> {
     final _allUsersViewModel =
         Provider.of<AllUserViewModel>(context, listen: false);
     var _oankiUser = _allUsersViewModel.usersList[index];
-
     if (_oankiUser.userID == _userModel.user.userID) {
       return Container();
     } else
@@ -114,21 +113,34 @@ class _UsersPageState extends State<UsersPage> {
             ),
           );
         },
-        child: Card(
-          margin: EdgeInsets.all(7),
-          shadowColor: Colors.black45,
-          elevation: 4,
-          color: Colors.grey.shade300,
-          shape: BeveledRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: ListTile(
-            title: Text(_oankiUser.userName),
-            subtitle: Text(_oankiUser.email),
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(_oankiUser.profilURL),
+        child: Column(
+          children: [
+            Container(
+              height: 70,
+              padding: EdgeInsets.only(top: 5),
+              child: ListTile(
+                title: Text(
+                  _oankiUser.userName,
+                  style: TextStyle(
+                      fontSize: _oankiUser.userName.length < 28 ? 18.5 : 15),
+                ),
+                //subtitle: Text(_oankiUser.email),
+                leading: CircleAvatar(
+                  backgroundImage: _oankiUser.profilURL == "images/unknown.jpg"
+                      ? ExactAssetImage(_oankiUser.profilURL)
+                      : NetworkImage(_oankiUser.profilURL),
+                  radius: 34,
+                ),
+              ),
             ),
-          ),
+            Container(
+              height: 1,
+              width: MediaQuery.of(context).size.width * 1,
+              margin: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * 0.23),
+              color: Colors.black45,
+            ),
+          ],
         ),
       );
   }
