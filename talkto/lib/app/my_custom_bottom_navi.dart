@@ -25,10 +25,11 @@ class MyCustomBottomNavigaiton extends StatelessWidget {
           _navItemOlustur(TabItem.MySpeeches),
           _navItemOlustur(TabItem.Profil),
         ],
-        backgroundColor: Colors.white,
-        activeColor: Color.fromARGB(255, 67 , 60 ,93),
-        inactiveColor: Colors.grey,
+        backgroundColor: Colors.grey.shade200,
+        activeColor: Colors.blue.shade700,
+        inactiveColor: Colors.blueGrey,
         onTap: (index) => onSelectedTab(TabItem.values[index]),
+        currentIndex: 1,
       ),
       tabBuilder: (context, index) {
         final gosterilecekItem = TabItem.values[index];

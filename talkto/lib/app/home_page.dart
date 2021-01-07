@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  TabItem _currentTab = TabItem.Users;
+  TabItem _currentTab = TabItem.MySpeeches;
 
   Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
     TabItem.Users: GlobalKey<NavigatorState>(),

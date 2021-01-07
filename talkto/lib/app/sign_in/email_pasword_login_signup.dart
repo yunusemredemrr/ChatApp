@@ -124,7 +124,6 @@ class _EmailAndPasswordLoginPageState extends State<EmailAndPasswordLoginPage> {
                       ),
                       TextFormField(
                         keyboardType: TextInputType.emailAddress,
-                        initialValue: "yunusemredemir@gmail.com",
                         decoration: InputDecoration(
                           errorText: _userModel.emailErrorMessage != null
                               ? _userModel.emailErrorMessage
@@ -148,7 +147,6 @@ class _EmailAndPasswordLoginPageState extends State<EmailAndPasswordLoginPage> {
                       ),
                       TextFormField(
                         obscureText: _passwordVisible,
-                        initialValue: "123456",
                         decoration: InputDecoration(
                           errorText: _userModel.passwordErrorMessage != null
                               ? _userModel.passwordErrorMessage
