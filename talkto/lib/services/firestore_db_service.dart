@@ -32,6 +32,8 @@ class FirestoreDBService implements DBBase {
     return readUserObject;
   }
 
+
+
   @override
   Future<bool> updateUserName(String userID, String newUserName) async {
     var users = await _firebaseDB
@@ -228,4 +230,6 @@ class FirestoreDBService implements DBBase {
   Future deleteToken(String toWho) async{
     await _firebaseDB.collection("tokens").doc(toWho).set({});
   }
+
+
 }

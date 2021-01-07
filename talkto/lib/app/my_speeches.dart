@@ -18,7 +18,7 @@ class _MySpeechesPageState extends State<MySpeechesPage> {
     UserModel _userModel = Provider.of<UserModel>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sohbetler"),
+        title: Center(child: Text("Sohbetler")),
       ),
       body: FutureBuilder<List<Talk>>(
         future: _userModel.getAllConversations(_userModel.user.userID),
@@ -57,7 +57,7 @@ class _MySpeechesPageState extends State<MySpeechesPage> {
                           Container(
                             height: 70,
                             child: ListTile(
-                              title: currentSpech.last_message_sent.length < 19
+                              title: currentSpech.last_message_sent.length < 10
                                   ? Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -195,7 +195,7 @@ class _MySpeechesPageState extends State<MySpeechesPage> {
 
   String wordAbbreviation(String last_message_sent) {
     String lastMessage;
-    lastMessage = last_message_sent.substring(0, 19) + "...";
+    lastMessage = last_message_sent.substring(0, 10) + "...";
     return lastMessage;
   }
 }

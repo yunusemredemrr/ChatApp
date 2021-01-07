@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:talkto/model/message.dart';
 import 'package:talkto/model/talk.dart';
 import 'package:talkto/model/user.dart';
@@ -132,6 +133,8 @@ class UserRepository implements AuthBase {
     }
   }
 
+
+
   Future<String> uploadFile(
       String userID, String fileType, File profilPhoto) async {
     if (appMode == AppMode.DEBUG) {
@@ -248,4 +251,6 @@ class UserRepository implements AuthBase {
           oppositeUserID, lastBroughtMeesage, getirilecekElemanSayisi);
     }
   }
+
+
 }

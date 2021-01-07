@@ -1,4 +1,5 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:talkto/model/message.dart';
 import 'package:talkto/model/talk.dart';
 import 'package:talkto/model/user.dart';

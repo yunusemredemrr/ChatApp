@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         title: "TalkTo",
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: Colors.blue,
+          primaryColor: Color.fromARGB(255, 67 , 60 ,93),
         ),
         home: LandingPage(),
       ),

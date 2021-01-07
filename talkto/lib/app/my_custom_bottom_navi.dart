@@ -25,9 +25,9 @@ class MyCustomBottomNavigaiton extends StatelessWidget {
           _navItemOlustur(TabItem.MySpeeches),
           _navItemOlustur(TabItem.Profil),
         ],
-        backgroundColor: Colors.grey.shade300,
-        activeColor: Colors.blue.shade700,
-        inactiveColor: Colors.grey.shade800,
+        backgroundColor: Colors.white,
+        activeColor: Color.fromARGB(255, 67 , 60 ,93),
+        inactiveColor: Colors.grey,
         onTap: (index) => onSelectedTab(TabItem.values[index]),
       ),
       tabBuilder: (context, index) {

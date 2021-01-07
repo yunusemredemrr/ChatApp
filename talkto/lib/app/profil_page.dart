@@ -55,7 +55,10 @@ class _ProfilPageState extends State<ProfilPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profil"),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 15.0),
+          child: Text("Profil"),
+        ),
         actions: <Widget>[
           FlatButton.icon(
             onPressed: () => _cikisIcinOnayIste(context),

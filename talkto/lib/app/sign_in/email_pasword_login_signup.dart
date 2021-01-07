@@ -22,7 +22,7 @@ class _EmailAndPasswordLoginPageState extends State<EmailAndPasswordLoginPage> {
   String _butonText, _linkText;
   var _formType = FormType.Login;
   final _formKey = GlobalKey<FormState>();
-  bool _passwordVisible =true;
+  bool _passwordVisible = true;
 
 
 

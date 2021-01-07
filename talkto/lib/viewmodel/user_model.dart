@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:talkto/model/message.dart';
 import 'package:talkto/model/talk.dart';
@@ -178,6 +179,7 @@ class UserModel with ChangeNotifier implements AuthBase {
     return result;
   }
 
+
   Future<String> uploadFile(
       String userID, String fileType, File profilPhoto) async {
     var downloadLink =
@@ -202,6 +204,8 @@ class UserModel with ChangeNotifier implements AuthBase {
       Users enSonGetirilenUser, int getirilecekElemanSayisi) async{
     return await _userRepository.getUserWithPagination(enSonGetirilenUser,getirilecekElemanSayisi);
   }
+
+
 
 
 }
