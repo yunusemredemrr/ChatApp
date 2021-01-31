@@ -29,9 +29,9 @@ class NotificationSendingService {
         await http.post(endURL, headers: headers, body: json);
 
     if (response.statusCode == 200) {
-      print("İşlem başarılı");
+      //print("İşlem başarılı");
     } else {
-      print("İşlem başarısız");
+      //print("İşlem başarısız");
     }
   }
 }

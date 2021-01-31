@@ -10,7 +10,7 @@ enum ChatViewState { Idle, Loaded, Bussy }
 class ChatViewModel with ChangeNotifier {
   List<Message> _allMessage;
   ChatViewState _state = ChatViewState.Idle;
-  static final sayfaBasinaGonderiSayisi = 10;
+  static final sayfaBasinaGonderiSayisi = 100;
   UserRepository _userRepository = locator<UserRepository>();
   Message _lastBroughtMessage;
   Message _firstMessageAddedToTheList;
@@ -26,7 +26,7 @@ class ChatViewModel with ChangeNotifier {
 
   ChatViewModel({this.currentUser, this.oppositeUser}) {
     _allMessage = [];
-    getMessageVithPagination(false);
+    getMessageWithPagination(false);
   }
 
   List<Message> get messageList => _allMessage;
@@ -48,7 +48,7 @@ class ChatViewModel with ChangeNotifier {
     return await _userRepository.saveMessage(tobeRecordedMessage,currentUser);
   }
 
-  void getMessageVithPagination(bool newMessageFetching) async {
+  void getMessageWithPagination(bool newMessageFetching) async {
     if (_allMessage.length > 0) {
       _lastBroughtMessage = _allMessage.last;
     }
@@ -77,9 +77,9 @@ class ChatViewModel with ChangeNotifier {
   }
 
   Future<void> bringMoreMessages() async {
-    print("Daha fazla mesaj getir tetiklendi - view modeldeyiz - ");
+    //print("Daha fazla mesaj getir tetiklendi - view modeldeyiz - ");
     if (_hasMore = true) {
-      getMessageVithPagination(true);
+      getMessageWithPagination(true);
     }
     await Future.delayed(Duration(seconds: 1));
   }

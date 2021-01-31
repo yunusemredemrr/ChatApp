@@ -6,6 +6,7 @@ import 'package:talkto/common_widget/platform_responsive_alert_dialog.dart';
 import 'package:talkto/common_widget/social_log_in_button.dart';
 import 'package:talkto/model/user.dart';
 import 'package:talkto/viewmodel/user_model.dart';
+import 'dart:ui';
 
 import '../exception.dart';
 
@@ -23,8 +24,6 @@ class _EmailAndPasswordLoginPageState extends State<EmailAndPasswordLoginPage> {
   var _formType = FormType.Login;
   final _formKey = GlobalKey<FormState>();
   bool _passwordVisible = true;
-
-
 
   void _googleLogin(BuildContext context) async {
     final _userModel = Provider.of<UserModel>(context, listen: false);
@@ -65,8 +64,6 @@ class _EmailAndPasswordLoginPageState extends State<EmailAndPasswordLoginPage> {
       }
     }
   }
-
-
 
   void _change() {
     setState(() {
@@ -120,7 +117,7 @@ class _EmailAndPasswordLoginPageState extends State<EmailAndPasswordLoginPage> {
                         height: size.height * 0.33,
                       ),
                       SizedBox(
-                        height: 5,
+                        height: size.height * 0.03,
                       ),
                       TextFormField(
                         keyboardType: TextInputType.emailAddress,

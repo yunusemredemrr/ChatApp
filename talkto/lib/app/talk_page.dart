@@ -27,32 +27,50 @@ class _TalkPageState extends State<TalkPage> {
     final _chatModel = Provider.of<ChatViewModel>(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 67 , 60 ,93),
-        elevation: 2,
+        backgroundColor: Color.fromARGB(255, 67, 60, 93),
+        elevation: 0,
+        toolbarHeight: 100,
+        leadingWidth: 50,
         centerTitle: true,
-        leadingWidth: 30,
-        title: Row(
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(
+              height: 5,
+            ),
             CircleAvatar(
               backgroundImage:
                   _chatModel.oppositeUser.profilURL == "images/unknown.jpg"
                       ? ExactAssetImage(_chatModel.oppositeUser.profilURL)
                       : NetworkImage(_chatModel.oppositeUser.profilURL),
               backgroundColor: Colors.grey.withAlpha(40),
+              radius: 30,
             ),
             SizedBox(
               width: 20,
             ),
-            _chatModel.oppositeUser.userName.length < 25
-                ? Text(
-                    _chatModel.oppositeUser.userName,
-                    style: TextStyle(fontSize: 20),
-                  )
-                : Text(
-                    userNameAbbreviation(_chatModel.oppositeUser.userName),
-                    style: TextStyle(fontSize: 18),
-                  ),
           ],
+        ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _chatModel.oppositeUser.userName.length < 20
+                  ? Text(
+                _chatModel.oppositeUser.userName,
+                style: TextStyle(fontSize: 20,color: Colors.white),
+              )
+                  : Text(
+                userNameAbbreviation(_chatModel.oppositeUser.userName),
+                style: TextStyle(fontSize: 18,color: Colors.white),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
         ),
       ),
       body: _chatModel.state == ChatViewState.Bussy
@@ -63,7 +81,7 @@ class _TalkPageState extends State<TalkPage> {
             )
           : Center(
               child: Container(
-                color: Color.fromARGB(255, 67 , 60 ,93),
+                color: Color.fromARGB(255, 67, 60, 93),
                 child: Column(
                   children: <Widget>[
                     _buildMessageList(),
@@ -100,67 +118,68 @@ class _TalkPageState extends State<TalkPage> {
 
   Widget _buildNewMessageEnter() {
     final _chatModel = Provider.of<ChatViewModel>(context);
-    return Container(
-      color: Color.fromARGB(255, 67 , 60 ,93),
-      padding: EdgeInsets.only(bottom: 8, left: 8, top: 10),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: TextField(
-              controller: _messageControler,
-              cursorColor: Colors.green.shade900,
-              style: new TextStyle(
-                fontSize: 18,
-                color: Colors.black,
-              ),
-              decoration: InputDecoration(
-                fillColor: Colors.grey.shade50,
-                contentPadding: EdgeInsets.all(10),
-                filled: true,
-                hintText: "Mesajınızı Yazınız",
-                hintStyle: TextStyle(fontSize: 18, color: Colors.blueGrey),
-                border: new OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(15.0),
+    return Card(
+      elevation: 10,
+      child: Container(
+        color: Color.fromARGB(255, 67, 60, 93),
+        padding: EdgeInsets.only(bottom: 8, left: 8, top: 10),
+        child: Column(
+          children: [
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    controller: _messageControler,
+                    cursorColor: Colors.green.shade900,
+                    style: new TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                    decoration: InputDecoration(
+                      fillColor: Colors.grey.shade50,
+                      contentPadding: EdgeInsets.all(10),
+                      filled: true,
+                      hintText: "Mesajınızı Yazınız",
+                      hintStyle: TextStyle(fontSize: 18, color: Colors.blueGrey),
+                      border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(15.0),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 0,
+                  ),
+                  child: FloatingActionButton(
+                    mini: true,
+                    elevation: 0,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.send,
+                      size: 25,
+                      color: Colors.black87,
+                    ),
+                    onPressed: () async {
+                      if (_messageControler.text.trim().length > 0) {
+                        Message _tobeRecordedMessage = Message(
+                          fromWho: _chatModel.currentUser.userID,
+                          toWho: _chatModel.oppositeUser.userID,
+                          isMe: true,
+                          message: _messageControler.text,
+                        );
+                        _messageControler.clear();
+                        var result = await _chatModel.saveMessage(
+                            _tobeRecordedMessage, _chatModel.currentUser);
+                        if (result) {}
+                      }
+                    },
+                  ),
+                ),
+              ],
             ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: 0,
-            ),
-            child: FloatingActionButton(
-              mini: true,
-              elevation: 0,
-              backgroundColor: Colors.white,
-              child: Icon(
-                Icons.send,
-                size: 25,
-                color: Colors.black87,
-              ),
-              onPressed: () async {
-                if (_messageControler.text.trim().length > 0) {
-                  Message _tobeRecordedMessage = Message(
-                    fromWho: _chatModel.currentUser.userID,
-                    toWho: _chatModel.oppositeUser.userID,
-                    isMe: true,
-                    message: _messageControler.text,
-                  );
-                  _messageControler.clear();
-                  var result = await _chatModel.saveMessage(
-                      _tobeRecordedMessage, _chatModel.currentUser);
-                  if (result) {
-                    _scrollController.animateTo(
-                      0.0,
-                      curve: Curves.easeOut,
-                      duration: Duration(milliseconds: 5),
-                    );
-                  }
-                }
-              },
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -341,7 +360,7 @@ class _TalkPageState extends State<TalkPage> {
 
   String userNameAbbreviation(String userNameAbbreviation) {
     String shortUserName;
-    shortUserName = userNameAbbreviation.substring(0, 21) + "...";
+    shortUserName = userNameAbbreviation.substring(0, 20) + "...";
     return shortUserName;
   }
 }

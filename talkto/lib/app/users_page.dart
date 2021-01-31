@@ -27,75 +27,82 @@ class _UsersPageState extends State<UsersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("Kullanıcılar",style: TextStyle(fontSize: 30),)),
-        backgroundColor: Color.fromARGB(255, 67 , 60 ,93),
+        title: Center(
+            child: Text(
+          "Kullanıcılar",
+          style: TextStyle(fontSize: 30),
+        )),
+        backgroundColor: Color.fromARGB(255, 67, 60, 93),
         elevation: 0,
       ),
       body: Column(
-        children: [
-          Container(
-            color: Color.fromARGB(255, 67 , 60 ,93),
-            padding: EdgeInsets.only(bottom: 8, left: 20, top: 10),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Center(
-                    child: TextField(
-                      autofocus: false,
-                      controller: _searchController,
-                      cursorHeight: 20,
-                      style: new TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration(
-                        fillColor: Colors.white,
-                        contentPadding: EdgeInsets.all(10),
-                        filled: true,
-                        hintText: "Kullanıcı Ara",
-                        hintStyle: TextStyle(
+          children: [
+            Container(
+              color: Color.fromARGB(255, 67, 60, 93),
+              padding: EdgeInsets.only(bottom: 8, left: 20, top: 10),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Center(
+                      child: TextField(
+                        autofocus: false,
+                        controller: _searchController,
+                        cursorHeight: 20,
+                        style: new TextStyle(
                           fontSize: 20,
-                          color: Colors.blueGrey,
+                          color: Colors.black,
                         ),
-                        prefixIcon: Icon(Icons.search),
-                        border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(20.0),
-                          borderSide: BorderSide.none,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          fillColor: Colors.white,
+                          contentPadding: EdgeInsets.all(10),
+                          filled: true,
+                          hintText: "Kullanıcı Ara",
+                          hintStyle: TextStyle(
+                            fontSize: 20,
+                            color: Colors.blueGrey,
+                          ),
+                          prefixIcon: Icon(Icons.search),
+                          border: new OutlineInputBorder(
+                            borderRadius: new BorderRadius.circular(20.0),
+                            borderSide: BorderSide.none,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 0,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 5,bottom: 5,left: 5,top: 5),
-                    child: FloatingActionButton(
-                      mini: true,
-                      elevation: 10,
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.search,
-                        size: 28,
-                        color: Colors.black,
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 0,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          right: 5, bottom: 5, left: 5, top: 5),
+                      child: FloatingActionButton(
+                        mini: true,
+                        elevation: 10,
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.search,
+                          size: 28,
+                          color: Colors.black,
+                        ),
+                        onPressed: () async {
+                          setState(
+                            () {
+                              userName = _searchController.text;
+                            },
+                          );
+                        },
                       ),
-                      onPressed: () async {
-                        setState(() {
-                          userName = _searchController.text;
-                        });
-                      },
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          buildConsumer(),
-        ],
-      ),
+            buildConsumer(),
+          ],
+        ),
     );
   }
 
@@ -218,9 +225,9 @@ class _UsersPageState extends State<UsersPage> {
                     ),
                   ],
                 )
-              :  SingleChildScrollView(
-                child: Container(),
-              ),
+              : SingleChildScrollView(
+                  child: Container(),
+                ),
         ),
       ],
     );

@@ -27,46 +27,49 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
-        child: Card(
-          shadowColor: Colors.blue,
-          elevation: 100,
-          margin: EdgeInsets.only(top: 50,left: 15,right: 15,bottom: 30),
-          shape: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.0),
-            borderSide: BorderSide.none
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              /*Center(
-                child: Text(
-                  "TalkTo Hoşgeldiniz",
-                  style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.purple.shade900,
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height*1,
+          child: Card(
+            shadowColor: Colors.blue,
+            elevation: 100,
+            margin: EdgeInsets.only(top: 50,left: 15,right: 15,bottom: 30),
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              borderSide: BorderSide.none
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                /*Center(
+                  child: Text(
+                    "TalkTo Hoşgeldiniz",
+                    style: TextStyle(
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.purple.shade900,
+                    ),
                   ),
+                ),*/
+                //SizedBox(height: size.height*0.06),
+                Image.asset("images/message_icon.png", height: size.width*0.8),
+                SizedBox(height: size.height*0.07),
+                SocialLoginButton(
+                  buttonText: "Giriş yap",
+                  buttonColor: Colors.blue.shade500,
+                  onPressed: () => _emailAndPasswordLogin(context),
                 ),
-              ),*/
-              //SizedBox(height: size.height*0.06),
-              Image.asset("images/message_icon.png", height: size.width*0.8),
-              SizedBox(height: size.height*0.07),
-              SocialLoginButton(
-                buttonText: "Giriş yap",
-                buttonColor: Colors.blue.shade500,
-                onPressed: () => _emailAndPasswordLogin(context),
-              ),
-              /*SocialLoginButton(
-                  buttonText: "Misafir Girişi",
-                  buttonIcon: Icon(Icons.supervised_user_circle),
-                  buttonColor: Colors.teal,
-                  onPressed: () => _guestLogin(context),
-                ),
-                 */
-            ],
+                /*SocialLoginButton(
+                    buttonText: "Misafir Girişi",
+                    buttonIcon: Icon(Icons.supervised_user_circle),
+                    buttonColor: Colors.teal,
+                    onPressed: () => _guestLogin(context),
+                  ),
+                   */
+              ],
+            ),
           ),
         ),
       ),

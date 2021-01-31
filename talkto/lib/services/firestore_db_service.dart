@@ -161,9 +161,8 @@ class FirestoreDBService implements DBBase {
       _querySnapshot = await FirebaseFirestore.instance
           .collection("users")
           .orderBy("userName")
-          .limit(getirilecekElemanSayisi)
           .get();
-    } else {
+    }/* else {
      // print("son kullanıcılar getiriliyor");
       _querySnapshot = await FirebaseFirestore.instance
           .collection("users")
@@ -172,7 +171,7 @@ class FirestoreDBService implements DBBase {
           .limit(getirilecekElemanSayisi)
           .get();
       await Future.delayed(Duration(seconds: 1));
-    }
+    }*/
 
     for (DocumentSnapshot snap in _querySnapshot.docs) {
       Users _tekUser = Users.fromMap(snap.data());
